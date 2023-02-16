@@ -13,12 +13,10 @@ In the current version, it performs searches in PacketStorm security, CXSecurity
 
 ## Source code
 
-You can download the latest [tarball](https://github.com/rfunix/Pompem/archive/v0.2.0.tar.gz) by clicking here or latest [zipball](https://github.com/rfunix/Pompem/archive/v0.2.0.zip) by clicking here.
-
 You can also download Pompem directly from its [Git repository](https://github.com/rfunix/Pompem):
 
 ```
-$ git clone https://github.com/rfunix/Pompem.git
+$ git clone https://github.com/Jephteman/Pompem.git
 ```
 
 ## Dependencies
@@ -47,6 +45,7 @@ $ python3.5 pompem.py -h
 Options:
   -h, --help                      show this help message and exit
   -s, --search <keyword,keyword,keyword>  text for search
+  -l, --local					 search in exploitdb local database
   --txt                           Write txt File
   --html                          Write html File
 ```

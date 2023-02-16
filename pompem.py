@@ -25,6 +25,8 @@ def main():
     parser.add_option("-g", "--get",
                       action="store_true", dest="get_exploit",
                       help="Download Exploits")
+    parser.add_option('-l','--local',
+                      action='store_true')
 
     parser.add_option("-h", "--help",
                       action="store_true", dest="help", help="-h")

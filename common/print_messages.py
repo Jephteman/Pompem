@@ -5,6 +5,7 @@ HELP_MESSAGE = """
 Options:
   -h, --help                      show this help message and exit
   -s, --search <keyword,keyword,keyword>  text for search
+  -l, --local                     search in exploitdb local databse
   --txt                           Write txt File
   --html                          Write html File
               """
@@ -53,3 +54,20 @@ def show_results(key_word, list_results):
                                                   str(exploit_data["name"])[0:50],
                                                   exploit_data["url"]))
                 print ("+" + "-" * 200 + "+")
+
+
+def show_results_local(key_word, list_results):
+    print ("+Results {0}".format(key_word))
+    print ("+" + "-" * 200 + "+")
+    print (
+        "+ID            CVE         screenshot_url      application_url")
+    print ("+" + "-" * 200 + "+")
+
+    for result in list_results:
+      print(result[0],end='\t')
+      print(result[1],end='\t')
+      print(result[2],end='\t')
+      print(result[3],end='\n')
+
+    print('For more information type `searchsploitdb --id id')
+  

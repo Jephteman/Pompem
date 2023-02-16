@@ -65,6 +65,8 @@ def __helper_write_html(iterable_data):
     data_result["table_rows"] = table_rows
     return data_result
 
+def write_html_local(list_results):
+    print('The option to write the local result in an html file is not available at the moment')
 
 def open_url(url):
     if sys.platform == 'win32':
@@ -93,3 +95,13 @@ def write_txt(dict_all_results):
                                 str(exploit_data["name"]),
                                 exploit_data["url"])
                             )
+
+def write_txt_local(list_results):
+    """
+        Write result in file out.txt for better viewing.
+    """
+    with open("out.txt", "w") as f:
+        f.write("date;description;url\n")
+        for i in list_results:
+            f.write(';'.join(i))
+
