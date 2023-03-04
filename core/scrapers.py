@@ -5,6 +5,7 @@ from threading import Thread
 import datetime
 import re
 from core.request_worker import RequestWorker, RequestWorkerHttpLib
+from core.functions import shodan
 import json
 
 
@@ -27,8 +28,9 @@ class Scraper(Thread):
                 html = r_worker.join()
                 self._parser(html)
             except Exception as e:
-                import traceback
-                traceback.print_exc()
+                #import traceback
+                #traceback.print_exc()
+                pass
 
 
 class PacketStorm(Scraper):
@@ -277,4 +279,43 @@ class WpvulndbB(Scraper):
             dict_results['date'] =  self.regex_date.search(item_html).group(1)
             self.list_result.append(dict_results)
 
+class ShodanExploit(Scraper):
+    def __init__(self, key_word):
+        Scraper.__init__(self)
+        self.name_site = "exploits.shodan"
+        self.name_class = ShodanExploit.__name__
+        self.key_word = key_word
+        self.url = "https://exploits.shodan.io/?q={0}&p={1}"
+        self.url_base = "https://exploits.shodan.io/"
+        self.page_max = 2
+        self.list_result = []
+        self.regex_item = re.compile(r'(?msi)<tr>.*?<td>.*?<a.*?</tr>')
+        self.regex_name = re.compile(r'(?msi)<a href="[^"]*?">\d+?<.*?href.*?>([^<]*?)<')
+        self.regex_date = re.compile(r'(?msi)created-at">([^<]*?)<')
+        self.regex_url = re.compile(r'(?msi)<a href="([^"]*?)">\d+?<')
+
+    def run(self, ):
+        for page in range(self.page_max+1):
+            try:
+                url_search = self.url.format(
+                    self.key_word,
+                    page
+                )
+                req_worker = RequestWorker(url_search)
+                req_worker.start()
+                self.list_req_workers.append(req_worker)
+            except Exception as e:
+                import traceback
+                traceback.print_exc()
+        self._get_results()
+
+    def _parser(self, html):
+        names , urls = shodan(html)
+        for n in range(len(names)):
+            dict_results={}
+            dict_results['url'] = urls[n]
+            dict_results['name'] = names[n]
+            dict_results['date'] =  ''
+            self.list_result.append(dict_results)
+        
 
